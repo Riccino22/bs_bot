@@ -1,6 +1,7 @@
+from bs4 import BeautifulSoup
 import telebot
 import scraping
-
+import table
 
 
 TOKEN = "6199806449:AAFqHu25WaeLwZEznQyvjT52fAJSnEKdJ3E"
@@ -19,5 +20,14 @@ def start_command(m):
         Dolar Paralelo VIP: {scraping.precios["Dolar Paralelo VIP"]}
     """)
 
+@bot.message_handler(commands="info")
+def info_command(m):
+    dt = table.data.drop(columns=['fecha'])
+    to_text = dt.to_string()
+    bot.reply_to(m, to_text)
+
+@bot.message_handler(commands=["bcv"])
+def bcv_command(m):
+    bot.reply_to("SI")
 
 bot.polling(timeout=120)  # Aumenta el tiempo de espera a 60 segundos
